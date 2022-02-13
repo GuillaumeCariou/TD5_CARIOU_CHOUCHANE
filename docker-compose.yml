@@ -1,0 +1,47 @@
+version: "3"
+services:
+    line_following_left:
+      image: tp5_cariou_chouchane/line_following_left:latest
+      container_name: line_following_left
+      build: ./LineFollowingLeft/.
+      network_mode: host
+      environment:
+        - MQTT_HOST=mqtt-broker
+        - MQTT_PORT=1883
+      privileged: true
+
+    line_following_right:
+        image: tp5_cariou_chouchane/line_following_right:latest
+        container_name: line_following_right
+        build: ./LineFollowingRight/.
+        network_mode: host
+        environment:
+          - MQTT_HOST=mqtt-broker
+          - MQTT_PORT=1883
+        privileged: true
+
+    obstacle_avoidance:
+      image: tp5_cariou_chouchane/obstacle_avoidance:latest
+      container_name: obstacle_avoidance
+      build: ./ObstacleAvoidance/.
+      network_mode: host
+      environment:
+        - MQTT_HOST=mqtt-broker
+        - MQTT_PORT=1883
+      privileged: true
+
+    voting:
+      image: tigltp5_cariou_chouchanei_bot/voting:latest
+      container_name: voting
+      build: ./Voting/.
+      network_mode: host
+      environment:
+        - MQTT_HOST=mqtt-broker
+        - MQTT_PORT=1883
+      privileged: true
+
+
+networks:
+    default:
+        external:
+            name: ab2-network
